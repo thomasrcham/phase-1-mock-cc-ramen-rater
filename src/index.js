@@ -4,7 +4,6 @@ function firstFetch() {
         .then((data) => {
             let ramenArray = data;
             ramenArray.forEach(addImages)
-
         })
 }
 
@@ -16,18 +15,33 @@ function addImages(array) {
 }
 
 document.getElementById('new-ramen').addEventListener('submit', (e) => {
-    e.preventDefault()
+    // e.preventDefault()
     newRamen(e.target)
 })
 
 function newRamen(target) {
-    document.querySelector('div#ramen-detail h2').textContent = target.name.value
-    document.querySelector('div#ramen-detail h3').textContent = target.restaurant.value
-    document.querySelector('span#rating-display').textContent = target.rating.value
-    document.querySelector('p#comment-display').textContent = target.newcomment.value
+    // document.querySelector('div#ramen-detail h2').textContent = target.name.value
+    // document.querySelector('div#ramen-detail h3').textContent = target.restaurant.value
+    // document.querySelector('span#rating-display').textContent = target.rating.value
+    // document.querySelector('p#comment-display').textContent = target.newcomment.value
+
+    let newRamenItem = { 'name': target.name.value, 'restaurant': target.restaurant.value, 'image': target.image.value, 'rating': target.rating.value, 'comment': target.newcomment.value }
+    // addImages(newRamenItem)
+    addNewRamen(newRamenItem)
 }
 
-
+function addNewRamen(body) {
+    fetch('http://localhost:3000/ramens', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(body),
+    })
+    // .then(res => res.json())
+    .then(console.log)
+    .catch(console.error)
+}
 
 function displayCard(array) {
     document.querySelector('div#ramen-detail img').src = array.image
